@@ -35,6 +35,7 @@ class Notification(CreationMetadataMixin, Base):
         ForeignKey("users.id"),
         index=True,
     )
+    is_read: Mapped[bool] = mapped_column(default=False)
 
     @classmethod
     def from_JSON(self, nr: "NotificationRequest") -> Self:
@@ -55,3 +56,4 @@ class NotificationRequest(BaseModel):
 
 class NotificationResponse(NotificationRequest):
     id: int
+    is_read: bool

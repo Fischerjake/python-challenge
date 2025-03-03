@@ -36,3 +36,12 @@ def create(
     session.refresh(note)
 
     return note
+
+
+def update_notification_as_read(session: Session, notification_id: int) -> Notification:
+    note = session.query(Notification).where(Notification.id == notification_id).one()
+    note.is_read = True
+    session.add(note)
+    session.commit()
+    session.refresh(note)
+    return note

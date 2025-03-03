@@ -35,4 +35,10 @@ def notify(db: DB) -> APIRouter:
     ) -> NotificationResponse:
         return handler.post_notification(req)
 
+    @router.put("notifications/{notification_id}")
+    async def update_notification_as_read(
+        handler: Annotated[Notify, Depends(get_handler)], notification_id: int
+    ) -> NotificationResponse:
+        return handler.update_notification_as_read(notification_id)
+
     return router

@@ -15,3 +15,7 @@ POST http://localhost:5678/notify/notification
 ###
 
 GET http://localhost:5678/notify/notifications/1
+
+###
+
+PUT http://localhost:5678/notify/notifications/2

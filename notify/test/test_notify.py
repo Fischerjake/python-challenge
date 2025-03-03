@@ -123,3 +123,44 @@ def test_post_notification(
         assert nr.body == arg_note["body"]
     else:
         assert "detail" in resp.json()
+
+
+@pytest.mark.parametrize(
+    "arg_notification_id, exp_status_code",
+    [(1, 200), (2, 200), (3, 200), (8, 400)],
+    # [
+    #     (-1, 400, None),  # negative number should not be valid
+    #     (0, 200, 0),  # User 0 doesn't exist, should return empty list
+    #     (1, 200, 3),  # sucess
+    # ],
+)
+def test_update_notification(
+    session: Session,
+    client: TestClient,
+    testdata,
+    arg_notification_id: int,
+    exp_status_code: int,
+):
+    resp = client.put("notify/notifications/{arg_notification_id}")
+
+    assert resp.status_code == exp_status_code
+
+    if exp_status_code == 200:
+        body: NotificationResponse = resp.json()
+        assert body.is_read == True
+
+    else:
+        assert "detail" in resp.json()
+    # # assert
+    # assert resp.status_code == exp_status_code
+
+    # if exp_status_code == 200:
+    #     body: Sequence[NotificationResponse] = resp.json()
+    #     assert len(body) == exp_notification_count
+
+    #     # Check the content of each notification
+    #     for item in body:
+    #         nr: NotificationResponse = NotificationResponse.model_validate(item)
+    #         assert nr.user_id == arg_user_id
+    # else:
+    #     assert "detail" in resp.json()
